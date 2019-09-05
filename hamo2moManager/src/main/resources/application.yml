@@ -1,0 +1,25 @@
+
+server:
+  port: 8181
+
+logging:
+  config: classpath:logback-spring.xml
+
+zk:
+  strClientDomain: "192.168.0.121:2181"
+  sessionTimeoutMs: 60000
+  connectionTimeoutMs: 60000
+  sleepTimeMs: 1000
+  maxRetries: 3
+
+treeCache:
+  treeCacheTime: 10
+
+threadPool:
+  corePoolSize: 5
+  maxPoolSize: 10
+  queueSize: 100
+
+scheduled:
+  delayTime: 10
+  scheduledTime: 60

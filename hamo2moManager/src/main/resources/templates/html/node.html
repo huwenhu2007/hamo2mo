@@ -1,0 +1,666 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- Required Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/css/text.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/css/fonts/ptsans/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/css/fluid.css" media="screen" />
+
+    <link rel="stylesheet" type="text/css" href="/css/mws.style.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/css/icons/icons.css" media="screen" />
+
+    <!-- Demo and Plugin Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="/css/demo.css" media="screen" />
+
+    <link rel="stylesheet" type="text/css" href="/plugins/colorpicker/colorpicker.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/plugins/jimgareaselect/css/imgareaselect-default.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/plugins/fullcalendar/fullcalendar.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/plugins/fullcalendar/fullcalendar.print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="/plugins/tipsy/tipsy.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/plugins/sourcerer/Sourcerer-1.2.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/plugins/jgrowl/jquery.jgrowl.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/plugins/spinner/spinner.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/css/jui/jquery.ui.css" media="screen" />
+
+    <!-- Theme Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/css/mws.theme.css" media="screen" />
+
+    <link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <link rel="stylesheet" href="/ztree/css/demo.css" type="text/css">
+    <link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <!-- JavaScript Plugins -->
+
+    <script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+
+    <script type="text/javascript" src="/plugins/jimgareaselect/jquery.imgareaselect.min.js"></script>
+    <script type="text/javascript" src="/plugins/jquery.dualListBox-1.3.min.js"></script>
+    <script type="text/javascript" src="/plugins/jgrowl/jquery.jgrowl.js"></script>
+    <script type="text/javascript" src="/plugins/jquery.filestyle.js"></script>
+    <script type="text/javascript" src="/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="/plugins/jquery.dataTables.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/plugins/flot/excanvas.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="/plugins/flot/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="/plugins/flot/jquery.flot.pie.min.js"></script>
+    <script type="text/javascript" src="/plugins/flot/jquery.flot.stack.min.js"></script>
+    <script type="text/javascript" src="/plugins/flot/jquery.flot.resize.min.js"></script>
+    <script type="text/javascript" src="/plugins/colorpicker/colorpicker.js"></script>
+    <script type="text/javascript" src="/plugins/tipsy/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="/plugins/sourcerer/Sourcerer-1.2.js"></script>
+    <script type="text/javascript" src="/plugins/jquery.placeholder.js"></script>
+    <script type="text/javascript" src="/plugins/jquery.validate.js"></script>
+    <script type="text/javascript" src="/plugins/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="/plugins/spinner/ui.spinner.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="/js/mws.js"></script>
+    <script type="text/javascript" src="/js/demo.js"></script>
+    <script type="text/javascript" src="/js/themer.js"></script>
+
+    <script type="text/javascript" src="/ztree/js/jquery.ztree.core.js"></script>
+
+    <title>MWS Admin - Grids and Panels</title>
+
+</head>
+
+<body>
+
+<div id="mws-themer">
+    <div id="mws-themer-hide"></div>
+    <div id="mws-themer-content">
+        <div class="mws-themer-section">
+            <label for="mws-theme-presets">Presets</label> <select id="mws-theme-presets"></select>
+        </div>
+        <div class="mws-themer-separator"></div>
+        <div class="mws-themer-section">
+            <ul>
+                <li><span>Base Color</span> <div id="mws-base-cp" class="mws-cp-trigger"></div></li>
+                <li><span>Text Color</span> <div id="mws-text-cp" class="mws-cp-trigger"></div></li>
+                <li><span>Text Glow Color</span> <div id="mws-textglow-cp" class="mws-cp-trigger"></div></li>
+            </ul>
+        </div>
+        <div class="mws-themer-separator"></div>
+        <div class="mws-themer-section">
+            <ul>
+                <li><span>Text Glow Opacity</span> <div id="mws-textglow-op"></div></li>
+            </ul>
+        </div>
+        <div class="mws-themer-separator"></div>
+        <div class="mws-themer-section">
+            <button class="mws-button red small" id="mws-themer-getcss">Get CSS</button>
+        </div>
+    </div>
+    <div id="mws-themer-css-dialog">
+        <div class="mws-form">
+            <div class="mws-form-row" style="padding:0;">
+                <div class="mws-form-item">
+                    <textarea cols="auto" rows="auto" readonly="readonly"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mws-header" class="clearfix">
+    <div id="mws-logo-container">
+        <div id="mws-logo-wrap">
+            <img src="images/mws-logo.png" alt="mws admin" />
+        </div>
+    </div>
+
+    <div id="mws-user-tools" class="clearfix">
+        <div id="mws-user-notif" class="mws-dropdown-menu">
+            <a href="#" class="mws-i-24 i-alert-2 mws-dropdown-trigger">Notifications</a>
+            <span class="mws-dropdown-notif">35</span>
+            <div class="mws-dropdown-box">
+                <div class="mws-dropdown-content">
+                    <ul class="mws-notifications">
+                        <li class="read">
+                            <a href="#">
+                                    <span class="message">
+                                        Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="read">
+                            <a href="#">
+                                    <span class="message">
+                                        Lorem ipsum dolor sit amet
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="unread">
+                            <a href="#">
+                                    <span class="message">
+                                        Lorem ipsum dolor sit amet
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="unread">
+                            <a href="#">
+                                    <span class="message">
+                                        Lorem ipsum dolor sit amet
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="mws-dropdown-viewall">
+                        <a href="#">View All Notifications</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mws-user-message" class="mws-dropdown-menu">
+            <a href="#" class="mws-i-24 i-message mws-dropdown-trigger">Messages</a>
+            <span class="mws-dropdown-notif">35</span>
+            <div class="mws-dropdown-box">
+                <div class="mws-dropdown-content">
+                    <ul class="mws-messages">
+                        <li class="read">
+                            <a href="#">
+                                <span class="sender">John Doe</span>
+                                <span class="message">
+                                        Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="read">
+                            <a href="#">
+                                <span class="sender">John Doe</span>
+                                <span class="message">
+                                        Lorem ipsum dolor sit amet
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="unread">
+                            <a href="#">
+                                <span class="sender">John Doe</span>
+                                <span class="message">
+                                        Lorem ipsum dolor sit amet
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                        <li class="unread">
+                            <a href="#">
+                                <span class="sender">John Doe</span>
+                                <span class="message">
+                                        Lorem ipsum dolor sit amet
+                                    </span>
+                                <span class="time">
+                                        January 21, 2012
+                                    </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="mws-dropdown-viewall">
+                        <a href="#">View All Messages</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mws-user-info" class="mws-inset">
+            <div id="mws-user-photo">
+                <img src="example/profile.jpg" alt="User Photo" />
+            </div>
+            <div id="mws-user-functions">
+                <div id="mws-username">
+                    Hello, John Doe
+                </div>
+                <ul>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Change Password</a></li>
+                    <li><a href="index-2.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mws-wrapper">
+    <div id="mws-sidebar-stitch"></div>
+    <div id="mws-sidebar-bg"></div>
+    <div id="mws-sidebar">
+        <div id="mws-searchbox" class="mws-inset">
+            <form>
+                <input type="text" class="mws-search-input" />
+                <input type="submit" class="mws-search-submit" />
+            </form>
+        </div>
+        <div id="mws-navigation">
+            <ul>
+                <li><a href="#" class="mws-i-24 i-home">节点管理</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="mws-container" class="clearfix">
+        <div class="container">
+
+            <div class="mws-report-container clearfix">
+                <a class="mws-report" href="#">
+                    <span class="mws-report-icon mws-ic ic-building"></span>
+                    <span class="mws-report-content">
+                        	<span class="mws-report-title">Floors Climbed</span>
+                            <span class="mws-report-value">324</span>
+                        </span>
+                </a>
+
+                <a class="mws-report" href="#">
+                    <span class="mws-report-icon mws-ic ic-sport"></span>
+                    <span class="mws-report-content">
+                        	<span class="mws-report-title">Calories Burned</span>
+                            <span class="mws-report-value down">74%</span>
+                        </span>
+                </a>
+
+                <a class="mws-report" href="#">
+                    <span class="mws-report-icon mws-ic ic-walk"></span>
+                    <span class="mws-report-content">
+                        	<span class="mws-report-title">Kilometers Walked</span>
+                            <span class="mws-report-value">14</span>
+                        </span>
+                </a>
+
+                <a class="mws-report" href="#">
+                    <span class="mws-report-icon mws-ic ic-bug"></span>
+                    <span class="mws-report-content">
+                        	<span class="mws-report-title">Bugs Fixed</span>
+                            <span class="mws-report-value up">22%</span>
+                        </span>
+                </a>
+
+                <a class="mws-report" href="#">
+                    <span class="mws-report-icon mws-ic ic-car"></span>
+                    <span class="mws-report-content">
+                        	<span class="mws-report-title">Cars Repaired</span>
+                            <span class="mws-report-value">77</span>
+                        </span>
+                </a>
+            </div>
+
+            <div class="mws-panel grid_3">
+                <div class="mws-panel-header">
+                    <span>任务节点信息</span>
+                </div>
+                <div class="mws-panel-body">
+                    <div class="mws-panel-content">
+                        <div id="treeDemo" class="ztree"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mws-panel grid_5">
+                <div class="mws-panel-header">
+                    <span>Collapsible Panel</span>
+                </div>
+                <div class="mws-panel-body" id="nodeOperateHtml">
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="mws-footer">
+            Copyright &copy; 2014.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>
+<SCRIPT type="text/javascript">
+    <!--
+    var setting = {
+        data: {
+            key: {
+                message:"message",
+                path:"path"
+            },
+            simpleData: {
+                enable: true
+            }
+        },
+        view: {
+            fontCss: getFont,
+            nameIsHTML: true,
+            selectedMulti: false
+        },
+        callback: {
+            onMouseDown: onMouseDown
+        }
+    };
+
+    function getFont(treeId, node) {
+        return node.font ? node.font : {};
+    }
+
+    function onMouseDown(event, treeId, treeNode) {
+        if(!treeNode || treeNode == undefined || treeNode == null){
+            return ;
+        }
+        var jdata = "";
+        if(treeNode.message && treeNode.message != ""){
+            jdata = JSON.stringify(JSON.parse(treeNode.message), null, 4);
+        }
+        showNodeOperate(treeNode.path, jdata);
+    }
+
+    function addNode(){
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+            nodes = zTree.getSelectedNodes();
+        if (nodes.length == 0) {
+            alert("请先选择一个节点");
+            return;
+        }
+        var level = nodes[0].level;
+        if(level != 2 && level !=3){
+            alert("只有进程和任务节点才能添加子节点！");
+            return;
+        }
+        var parentNodePath = nodes[0].path;
+
+        if(!confirm("确定新增该节点数据?")){
+            return ;
+        }
+
+        var newNodeName = $("#newNodeName").val();
+        var newNodeMessage = $("#newNodeMessage").val();
+
+        if(newNodeName == "" || newNodeMessage == ""){
+            alert("名称或者内容不能为空！");
+            return
+        }
+
+        var params = {};
+        params.path = parentNodePath + "/" + newNodeName;
+        params.message = newNodeMessage;
+        params.nodeName = newNodeName;
+        if(level == 2){
+            params.nodeType = "task";
+        } else if(level == 3){
+            params.nodeType = "target";
+        }
+
+        $.ajax({
+            type: "post",
+            url: "/zk/addNode",
+            contentType:"application/json;charset=utf-8",
+            data: JSON.stringify(params),
+            success: function(data){
+                if(data == "success"){
+                    alert("节点添加成功");
+                    init();
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
+
+    function deleteNode(){
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+            nodes = zTree.getSelectedNodes();
+        if (nodes.length == 0) {
+            alert("请先选择一个节点");
+            return;
+        }
+        var level = nodes[0].level;
+        if(level != 3 && level != 4){
+            alert("只有任务和目标节点才能删除！");
+            return;
+        }
+        var parentNodePath = nodes[0].path;
+        var name = nodes[0].name;
+        if(name == "state"){
+            alert("状态节点不能删除");
+            return ;
+        }
+
+        if(!confirm("确定删除该节点数据?")){
+            return ;
+        }
+
+
+        var params = {};
+        params.path = parentNodePath;
+
+        $.ajax({
+            type: "post",
+            url: "/zk/deleteNode",
+            contentType:"application/json;charset=utf-8",
+            data: JSON.stringify(params),
+            success: function(data){
+                if(data == "success"){
+                    alert("节点删除成功");
+                    init();
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
+
+    function updateNode(){
+        if(!confirm("确定修改该节点数据?")){
+            return ;
+        }
+
+        var path = $("#path").html();
+        var message = $("#message").val();
+
+        var params = {};
+        params.path = path;
+        params.message = message;
+
+        $.ajax({
+            type: "post",
+            url: "/zk/updateNode",
+            contentType:"application/json;charset=utf-8",
+            data: JSON.stringify(params),
+            success: function(data){
+                if(data == "success"){
+                    alert("节点修改成功");
+                    init();
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
+
+    function restart(){
+        if(!confirm("确定重启该节点任务?")){
+            return ;
+        }
+
+        var path = $("#path").html();
+
+        var params = {};
+        params.path = path;
+
+        $.ajax({
+            type: "post",
+            url: "/zk/restart",
+            contentType:"application/json;charset=utf-8",
+            data: JSON.stringify(params),
+            success: function(data){
+                if(data == "success"){
+                    alert("节点任务重启提交成功");
+                    init();
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
+
+    function start(){
+        if(!confirm("确定启动该节点任务?")){
+            return ;
+        }
+
+        var path = $("#path").html();
+
+        var params = {};
+        params.path = path;
+
+        $.ajax({
+            type: "post",
+            url: "/zk/start",
+            contentType:"application/json;charset=utf-8",
+            data: JSON.stringify(params),
+            success: function(data){
+                if(data == "success"){
+                    alert("节点任务启动提交成功");
+                    init();
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
+
+    function stop(){
+        if(!confirm("确定停止该节点任务?")){
+            return ;
+        }
+
+        var path = $("#path").html();
+
+        var params = {};
+        params.path = path;
+
+        $.ajax({
+            type: "post",
+            url: "/zk/stop",
+            contentType:"application/json;charset=utf-8",
+            data: JSON.stringify(params),
+            success: function(data){
+                if(data == "success"){
+                    alert("节点任务停止提交成功");
+                    init();
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        init();
+    });
+    function init() {
+        $.ajax({
+            type: "post",
+            url: "/zk/getTree",
+            dataType: "json",
+            success: function (data) {
+                var zNodes = data;
+                console.info(zNodes);
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            }
+        });
+    }
+
+    function showNodeOperate(nodePath, message){
+        var data = { nodePath: nodePath, message: message };
+
+        var addMarkup = '<form name="newNodeForm" class="mws-form">';
+        addMarkup += '<div class="mws-form-block">';
+        addMarkup += '<div class="mws-form-row">';
+        addMarkup += '<label>节点路径</label>';
+        addMarkup += '<div id="path" class="mws-form-item large">';
+        addMarkup += '${nodePath}';
+        addMarkup += '</div>';
+        addMarkup += '</div>';
+        addMarkup += '<div class="mws-form-row">';
+        addMarkup += '<label>节点内容</label>';
+        addMarkup += '<div class="mws-form-item large">';
+        addMarkup += '<textarea rows="100%" cols="100%" id="message">${message}</textarea>';
+        addMarkup += '</div>';
+        addMarkup += '</div>';
+        addMarkup += '</div>';
+        addMarkup += '<div class="mws-button-row">';
+        addMarkup += '<input type="submit" value="修改" class="mws-button green" onclick="updateNode()" />';
+        addMarkup += '<input type="submit" value="删除" class="mws-button green" onclick="deleteNode()" />';
+        addMarkup += '<input type="submit" value="重启" class="mws-button green" onclick="restart()" />';
+        addMarkup += '<input type="submit" value="停止" class="mws-button green" onclick="stop()" />';
+        addMarkup += '<input type="submit" value="启动" class="mws-button green" onclick="start()" />';
+        addMarkup += '<input type="submit" value="增加下级" class="mws-button green" onclick="showNewNodeOperate()" />';
+        addMarkup += '</div>';
+        addMarkup += '</form>';
+        $.template( "nodeOperateTemplate", addMarkup );
+
+        $("#nodeOperateHtml").empty();
+        $.tmpl( "nodeOperateTemplate", data ).appendTo( "#nodeOperateHtml" );
+    }
+
+    function showNewNodeOperate(){
+        var nodePath = $("#path").html();
+        var data = { nodePath: nodePath };
+
+        var addMarkup = '<form name="newNodeForm" class="mws-form">';
+        addMarkup += '<div class="mws-form-block">';
+        addMarkup += '<div class="mws-form-row">';
+        addMarkup += '<label>节点路径</label>';
+        addMarkup += '<div class="mws-form-item large">';
+        addMarkup += '<label id="newNodePath"/>${nodePath}</label>';
+        addMarkup += '</div>';
+        addMarkup += '</div>';
+        addMarkup += '<div class="mws-form-row">';
+        addMarkup += '<label>节点名称</label>';
+        addMarkup += '<div class="mws-form-item medium">';
+        addMarkup += '<input type="text" class="mws-textinput" id="newNodeName" name="newNodeName"/>';
+        addMarkup += '</div>';
+        addMarkup += '</div>';
+        addMarkup += '<div class="mws-form-row">';
+        addMarkup += '<label>节点内容</label>';
+        addMarkup += '<div class="mws-form-item large">';
+        addMarkup += '<textarea rows="100%" cols="100%" id="newNodeMessage" name="newNodeMessage"></textarea>';
+        addMarkup += '</div>';
+        addMarkup += '</div>';
+        addMarkup += '</div>';
+        addMarkup += '<div class="mws-button-row">';
+        addMarkup += '<input type="submit" value="提交" class="mws-button green" onclick="addNode()" />';
+        addMarkup += '</div>';
+        addMarkup += '</form>';
+        $.template( "newNodeOperateTemplate", addMarkup );
+
+        $("#nodeOperateHtml").empty();
+        $.tmpl( "newNodeOperateTemplate", data ).appendTo( "#nodeOperateHtml" );
+    }
+
+
+    //-->
+</SCRIPT>

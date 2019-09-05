@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+    <TITLE> ZTREE DEMO </TITLE>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <TITLE> ZTREE DEMO - Standard Data </TITLE>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/ztree/css/demo.css" type="text/css">
+    <link rel="stylesheet" href="/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="/ztree/js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="/ztree/js/jquery.ztree.core.js"></script>
+    <SCRIPT type="text/javascript">
+        <!--
+        var setting = {
+            data: {
+                key: {
+                    message:"message",
+                    path:"path"
+                },
+                simpleData: {
+                    enable: true
+                }
+            },
+            view: {
+                fontCss: getFont,
+                nameIsHTML: true,
+                selectedMulti: false
+            },
+            callback: {
+                onMouseDown: onMouseDown
+            }
+        };
+
+        function getFont(treeId, node) {
+            return node.font ? node.font : {};
+        }
+
+        function onMouseDown(event, treeId, treeNode) {
+            $("#treeButtonDiv").html("");
+            $("#path").html("");
+            $("#messageDiv").html("");
+            $("#buttonDiv").html("");
+
+            $("#newNodeName").val("");
+            $("#newNodeMessage").val("");
+
+            console.info(treeNode);
+            if(!treeNode || treeNode == undefined || treeNode == null){
+                return ;
+            }
+            $("#path").html(treeNode.path);
+
+            var _treeButton = "<input type='button' value='增加' onclick='addNode()' /><br/>";
+            _treeButton += "<input type='button' value='删除' onclick='deleteNode()' />";
+            $("#treeButtonDiv").html(_treeButton);
+
+            $("#messageDiv").html("<textarea id='message' rows='40' cols='200' placeholder='' style='white-space:nowrap; overflow:scroll;'></textarea>");
+            var _button = "<input type='button' value='修改' onclick='updateNode()' />";
+            _button += "<input type='button' value='重启' onclick='restart()' />";
+            _button += "<input type='button' value='停止' onclick='stop()' />";
+            _button += "<input type='button' value='启动' onclick='start()' />";
+            _button += "<input type='button' value='删除' onclick='delete()' />";
+            $("#buttonDiv").html(_button);
+
+            if(treeNode.message && treeNode.message != ""){
+                var jdata = JSON.stringify(JSON.parse(treeNode.message), null, 4);
+                $("#message").val(jdata);
+            }
+        }
+
+        function addNode(){
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getSelectedNodes();
+            if (nodes.length == 0) {
+                alert("请先选择一个节点");
+                return;
+            }
+            var level = nodes[0].level;
+            if(level != 2 && level !=3){
+                alert("只有进程和任务节点才能添加子节点！");
+                return;
+            }
+            var parentNodePath = nodes[0].path;
+
+            if(!confirm("确定新增该节点数据?")){
+                return ;
+            }
+
+            var newNodeName = $("#newNodeName").val();
+            var newNodeMessage = $("#newNodeMessage").val();
+
+            if(newNodeName == "" || newNodeMessage == ""){
+                alert("名称或者内容不能为空！");
+                return
+            }
+
+            var params = {};
+            params.path = parentNodePath + "/" + newNodeName;
+            params.message = newNodeMessage;
+            params.nodeName = newNodeName;
+            if(level == 2){
+                params.nodeType = "task";
+            } else if(level == 3){
+                params.nodeType = "target";
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/zk/addNode",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(params),
+                success: function(data){
+                    if(data == "success"){
+                        alert("节点添加成功");
+                        init();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        function deleteNode(){
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                nodes = zTree.getSelectedNodes();
+            if (nodes.length == 0) {
+                alert("请先选择一个节点");
+                return;
+            }
+            var level = nodes[0].level;
+            if(level != 3 && level != 4){
+                alert("只有任务和目标节点才能删除！");
+                return;
+            }
+            var parentNodePath = nodes[0].path;
+            var name = nodes[0].name;
+            if(name == "state"){
+                alert("状态节点不能删除");
+                return ;
+            }
+
+            if(!confirm("确定删除该节点数据?")){
+                return ;
+            }
+
+
+            var params = {};
+            params.path = parentNodePath;
+
+            $.ajax({
+                type: "post",
+                url: "/zk/deleteNode",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(params),
+                success: function(data){
+                    if(data == "success"){
+                        alert("节点删除成功");
+                        init();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        function updateNode(){
+            if(!confirm("确定修改该节点数据?")){
+                return ;
+            }
+
+            var path = $("#path").html();
+            var message = $("#message").val();
+
+            var params = {};
+            params.path = path;
+            params.message = message;
+
+            $.ajax({
+                type: "post",
+                url: "/zk/updateNode",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(params),
+                success: function(data){
+                    if(data == "success"){
+                        alert("节点修改成功");
+                        init();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        function restart(){
+            if(!confirm("确定重启该节点任务?")){
+                return ;
+            }
+
+            var path = $("#path").html();
+
+            var params = {};
+            params.path = path;
+
+            $.ajax({
+                type: "post",
+                url: "/zk/restart",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(params),
+                success: function(data){
+                    if(data == "success"){
+                        alert("节点任务重启提交成功");
+                        init();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        function start(){
+            if(!confirm("确定启动该节点任务?")){
+                return ;
+            }
+
+            var path = $("#path").html();
+
+            var params = {};
+            params.path = path;
+
+            $.ajax({
+                type: "post",
+                url: "/zk/start",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(params),
+                success: function(data){
+                    if(data == "success"){
+                        alert("节点任务启动提交成功");
+                        init();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        function stop(){
+            if(!confirm("确定停止该节点任务?")){
+                return ;
+            }
+
+            var path = $("#path").html();
+
+            var params = {};
+            params.path = path;
+
+            $.ajax({
+                type: "post",
+                url: "/zk/stop",
+                contentType:"application/json;charset=utf-8",
+                data: JSON.stringify(params),
+                success: function(data){
+                    if(data == "success"){
+                        alert("节点任务停止提交成功");
+                        init();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            init();
+        });
+        function init() {
+            $.ajax({
+                type: "post",
+                url: "/zk/getTree",
+                dataType: "json",
+                success: function (data) {
+                    var zNodes = data;
+                    console.info(zNodes);
+                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                }
+            });
+        }
+
+
+        //-->
+    </SCRIPT>
+</HEAD>
+
+<BODY>
+
+<h1>最简单的树 -- 标准 JSON 数据</h1>
+<h6>[ 文件路径: core/standardData.html ]</h6>
+<div class="content_wrap">
+    <div class="zTreeDemoBackground left" style="width: 200px; height: 800px;">
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <div class="right">
+       <table>
+           <tr>
+               <td>
+                   <div id="path"></div>
+               </td>
+           </tr>
+
+           <tr>
+               <td>
+
+                   <table>
+                       <tr><td>名称</td><td> <input type="text" id="newNodeName" value="" /> </td></tr>
+                       <tr><td>内容</td><td> <textarea id='newNodeMessage' rows='30' cols='40' placeholder='' style='white-space:nowrap; overflow:scroll;'></textarea> </td></tr>
+                   </table>
+
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <div id="treeButtonDiv">
+                   </div>
+               </td>
+           </tr>
+
+
+           <tr>
+               <td>
+                   <div id="messageDiv">
+                   </div>
+               </td>
+           </tr>
+           <tr>
+               <td>
+                   <div id="buttonDiv">
+                   </div>
+               </td>
+           </tr>
+       </table>
+    </div>
+</div>
+
+</BODY>
+</HTML>
